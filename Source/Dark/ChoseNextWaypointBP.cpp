@@ -5,22 +5,29 @@
 #include "TP_ThirdPerson/TP_ThirdPersonCharacter.h"
 #include "Linker.h"
 #include "AIController.h"
-#include "PatrollingGuard.h"
+#include "PatrolRoute.h"
+#include "GameFramework/Character.h"
 
 EBTNodeResult::Type UChoseNextWaypointBP::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	if (UBlackboardComponent* blackboardComp = OwnerComp.GetBlackboardComponent())
-	{	
+	{
 		const int index = blackboardComp->GetValueAsInt(Index.SelectedKeyName);
 
 		if (AAIController* owner = OwnerComp.GetAIOwner())
 		{
-			APatrollingGuard* character = Cast<APatrollingGuard>(owner->GetPawn());
-			if (character->PatrolPoints.Num() > 0)
+			ATP_ThirdPersonCharacter* character = Cast<ATP_ThirdPersonCharacter>(owner->GetPawn());
+
+			if (UPatrolRoute* patrolRouteComponent = character->FindComponentByClass<UPatrolRoute>())
 			{
-				const int nextIndex = (index + 1) % character->PatrolPoints.Num();
-				blackboardComp->SetValueAsInt(Index.SelectedKeyName, nextIndex);
-				blackboardComp->SetValueAsObject(WaypointKey.SelectedKeyName, character->PatrolPoints[index]);
+				TArray<AActor*>& patrolPoints = patrolRouteComponent->PatrolPoints;
+
+				if (patrolPoints.Num() > 0)
+				{
+					const int nextIndex = (index + 1) % patrolPoints.Num();
+					blackboardComp->SetValueAsInt(Index.SelectedKeyName, nextIndex);
+					blackboardComp->SetValueAsObject(WaypointKey.SelectedKeyName, patrolPoints[index]);
+				}
 			}
 		}
 	}
