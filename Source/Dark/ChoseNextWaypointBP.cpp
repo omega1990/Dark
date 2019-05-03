@@ -27,13 +27,14 @@ EBTNodeResult::Type UChoseNextWaypointBP::ExecuteTask(UBehaviorTreeComponent& Ow
 						const int nextIndex = (index + 1) % patrolPoints.Num();
 						blackboardComp->SetValueAsInt(Index.SelectedKeyName, nextIndex);
 						blackboardComp->SetValueAsObject(WaypointKey.SelectedKeyName, patrolPoints[index]);
+						return EBTNodeResult::Succeeded;
 					}
 				}
 			}
 		}
 	}
 
-	return EBTNodeResult::Succeeded;
+	return EBTNodeResult::Failed;
 }
 
 
