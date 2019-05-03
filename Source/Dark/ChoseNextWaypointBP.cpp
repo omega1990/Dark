@@ -16,17 +16,18 @@ EBTNodeResult::Type UChoseNextWaypointBP::ExecuteTask(UBehaviorTreeComponent& Ow
 
 		if (AAIController* owner = OwnerComp.GetAIOwner())
 		{
-			ATP_ThirdPersonCharacter* character = Cast<ATP_ThirdPersonCharacter>(owner->GetPawn());
-
-			if (UPatrolRoute* patrolRouteComponent = character->FindComponentByClass<UPatrolRoute>())
+			if (ACharacter* character = Cast<ACharacter>(owner->GetPawn()))
 			{
-				TArray<AActor*>& patrolPoints = patrolRouteComponent->PatrolPoints;
-
-				if (patrolPoints.Num() > 0)
+				if (UPatrolRoute* patrolRouteComponent = character->FindComponentByClass<UPatrolRoute>())
 				{
-					const int nextIndex = (index + 1) % patrolPoints.Num();
-					blackboardComp->SetValueAsInt(Index.SelectedKeyName, nextIndex);
-					blackboardComp->SetValueAsObject(WaypointKey.SelectedKeyName, patrolPoints[index]);
+					TArray<AActor*>& patrolPoints = patrolRouteComponent->PatrolPoints;
+
+					if (patrolPoints.Num() > 0)
+					{
+						const int nextIndex = (index + 1) % patrolPoints.Num();
+						blackboardComp->SetValueAsInt(Index.SelectedKeyName, nextIndex);
+						blackboardComp->SetValueAsObject(WaypointKey.SelectedKeyName, patrolPoints[index]);
+					}
 				}
 			}
 		}
