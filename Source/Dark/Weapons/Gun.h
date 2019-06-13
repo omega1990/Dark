@@ -40,11 +40,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class UAnimInstance* AnimInstance;
 
+	/** Gun muzzle's offset from the characters location */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	FVector GunOffset;
+
+	void OnFire();
+
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	
-	void OnFire();
+	virtual void BeginPlay() override;	
 
 public:	
 	// Called every frame
