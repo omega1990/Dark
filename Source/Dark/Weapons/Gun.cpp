@@ -65,7 +65,7 @@ void AGun::OnFire()
 	if (FireSound != NULL)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-		//UAISense_Hearing::ReportNoiseEvent(this, GetActorLocation(), 1.f, GetController());
+		UAISense_Hearing::ReportNoiseEvent(this, GetActorLocation(), 1.f, this);
 	}
 
 	// try and play a firing animation if specified
