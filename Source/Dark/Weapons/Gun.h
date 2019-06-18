@@ -44,6 +44,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector GunOffset;
 
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void OnFire();
 
 protected:
